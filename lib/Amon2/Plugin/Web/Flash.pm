@@ -4,30 +4,31 @@ use warnings;
 
 our $VERSION = '0.01';
 
+use Amon2::Util;
+
 
 sub init {
     my ($class, $c, $conf) = @_;
+    my $webpkg = ref $c || $c;
 
-    die 'Amon2::Plugin::Web::Flash depends on $c->session' unless $c->session->can("get");
+    die 'Amon2::Plugin::Web::Flash depends on $c->session' unless $c->can("session");
 
     my $key = $conf->{session_key} || 'flash';
     my $new_key = $key . "_new";
 
-    Amon2::Util::add_method($webpkg, 'flash', sub {
-        my $value = shift;
-        $c->session->set($new_key, $value);
+    Amon2::Util::add_method($webpkg, flash => sub {
+        my ($self, $value) = @_;
+        $self->session->set($new_key, $value);
     });
 
     $c->add_trigger("BEFORE_DISPATCH" => sub {
         my $c = shift;
+
+        $c->session->remove($key);
+
         my $val = $c->session->get($new_key);
         $c->session->remove($new_key);
         $c->session->set($key, $val) if $val;
-    });
-
-    $c->add_trigger("AFTER_DISPATCH" => sub {
-        my $c = shift;
-        $c->session->remove($key);
     });
 }
 
