@@ -11,8 +11,6 @@ sub init {
     my ($class, $c, $conf) = @_;
     my $webpkg = ref $c || $c;
 
-    die 'Amon2::Plugin::Web::Flash depends on $c->session' unless $c->can("session");
-
     my $key = $conf->{session_key} || 'flash';
     my $new_key = $key . "_new";
 
