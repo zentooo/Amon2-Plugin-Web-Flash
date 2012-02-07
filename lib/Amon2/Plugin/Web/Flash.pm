@@ -16,7 +16,8 @@ sub init {
 
     Amon2::Util::add_method($webpkg, flash => sub {
         my ($self, $value) = @_;
-        $self->session->set($new_key, $value);
+        $self->session->set($new_key, $value) if $value;
+        return $self->session->get($key);
     });
 
     $c->add_trigger("BEFORE_DISPATCH" => sub {

@@ -36,7 +36,7 @@ my $app = do {
 
         $c->render('index.tt', +{
             flash_new => $c->session->get("flash_new"),
-            flash => $c->session->get("flash"),
+            flash => $c->flash,
         });
     };
 
@@ -46,7 +46,7 @@ my $app = do {
 
         $c->render('index.tt', +{
             flash_new => $c->session->get("flash_new"),
-            flash => $c->session->get("flash"),
+            flash => $c->flash,
         });
     };
 
@@ -56,7 +56,7 @@ my $app = do {
 
         $c->render('index.tt', +{
             flash_new => $c->session->get("flash_new"),
-            flash => $c->session->get("flash"),
+            flash => $c->flash,
         });
     };
 
