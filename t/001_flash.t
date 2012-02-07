@@ -77,14 +77,14 @@ subtest 'set and get and turn' => sub {
             }
 
             {
-                my $res = $cb->(HTTP::Request->new(GET => "http://localhost/use?sid=$session_id"));
+                my $res = $cb->(HTTP::Request->new(GET => "http://localhost/use?$session_key=$session_id"));
                 note $res->content;
                 unlike $res->content, qr/Honey flash new/;
                 like $res->content, qr/Honey flash!/;
             }
 
             {
-                my $res = $cb->(HTTP::Request->new(GET => "http://localhost/after?sid=$session_id"));
+                my $res = $cb->(HTTP::Request->new(GET => "http://localhost/after?$session_key=$session_id"));
                 note $res->content;
                 unlike $res->content, qr/Honey flash new/;
                 unlike $res->content, qr/Honey flash!/;
